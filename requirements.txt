@@ -8,3 +8,4 @@ pydantic~=1.10.7
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart
+python-dotenv==1.0.0
