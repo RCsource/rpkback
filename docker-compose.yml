@@ -1,0 +1,29 @@
+version: "3"
+
+services:
+  app:
+    restart: always
+    build: .
+    env_file: .env
+    volumes:
+      - "./migrations/versions:/app/migrations/versions"
+    links:
+      - "db:${DB_HOST}"
+    ports:
+      - "8080:8080"
+
+  db:
+    restart: always
+    image: postgres
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PSWD}"
+      POSTGRES_DB: "${DB_NAME}"
+    volumes:
+      - "./postgres_data:/var/lib/postgresql/data"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8000:8080"
