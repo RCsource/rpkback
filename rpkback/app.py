@@ -15,6 +15,11 @@ app = FastAPI(
 )
 
 
+@app.get('/health', tags=['system'])
+async def check_health():
+    return {'status': 'i am alive'}
+
+
 @app.exception_handler(HttpException)
 async def exception_handler(request: Request, exception: HttpException):
     return JSONResponse(
