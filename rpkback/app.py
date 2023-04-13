@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from .exceptions import HttpException
 from .files.routes import files
@@ -26,6 +27,14 @@ async def exception_handler(request: Request, exception: HttpException):
         {"detail": exception.detail if len(exception.args) == 0 else exception.args[0]},
         status_code=exception.code,
     )
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['*'],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 app.include_router(packages)
