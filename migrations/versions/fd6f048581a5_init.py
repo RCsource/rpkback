@@ -1,8 +1,8 @@
 """init
 
-Revision ID: 353a2406e819
+Revision ID: fd6f048581a5
 Revises: 
-Create Date: 2023-04-11 17:11:43.976642
+Create Date: 2023-04-12 21:15:52.144490
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '353a2406e819'
+revision = 'fd6f048581a5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -57,6 +57,7 @@ def upgrade() -> None:
     sa.ForeignKeyConstraint(['package_name'], ['packages.name'], ),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('token'),
     sa.UniqueConstraint('user_id', 'name', name='_api_token_uc')
     )
     # ### end Alembic commands ###
