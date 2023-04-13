@@ -64,9 +64,11 @@ async def create_package_version(
         except KeyError:
             raise HTTPException(400, "filename 'package.json' not found")
         try:
-            info = schemas.PackageVersionInfo(
-                **json.loads(fileobj.read())
-            )
+            content = json.loads(fileobj.read())
+        except json.JSONDecodeError:
+            raise HTTPException(400, 'json decode error')
+        try:
+            info = schemas.PackageVersionInfo(content)
         except pydantic.ValidationError as e:
             raise  HTTPException(status_code=422, detail=jsonable_encoder(e.errors()))
         package = await get_package(session, info.name)

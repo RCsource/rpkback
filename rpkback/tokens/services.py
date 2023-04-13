@@ -66,7 +66,10 @@ header = APIKeyHeader(name="Authorization")
 async def get_current_token_or_user(
     token: str = Depends(header), session: AsyncSession = Depends(get_db)
 ) -> User | APIToken:
-    schema, value = token.split()
+    try:
+        schema, value = token.split()
+    except ValueError:
+        raise HTTPException(401, "wrong token format. use 'Bearer <token>' or 'apiKey <token>'")
     if schema.lower() == "bearer":
         return await get_current_user(session, token)
     elif schema.lower() == "apikey":
