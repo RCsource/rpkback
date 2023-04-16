@@ -2,9 +2,11 @@ from datetime import datetime
 from typing import TypeVar
 from uuid import UUID
 
-from pydantic import BaseModel, constr, FileUrl, Field
+from pydantic import constr, FileUrl, Field
 
-from rpkback.users.schemas import User
+from ..users.schemas import User
+from ..schemas import BaseModel
+
 
 SemVer: TypeVar = constr(
     regex=r"^(?P<major>0|[1-9]\d*)\."

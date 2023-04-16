@@ -3,7 +3,7 @@ from uuid import UUID
 
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy import ForeignKey, text, func
+from sqlalchemy import ForeignKey, func
 
 from ..database import Base
 
