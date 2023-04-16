@@ -6,7 +6,6 @@ web service for managing the raccon package tool repository (not Ruchnoy Pulemyo
 * [ ] теги
 * [ ] объект user вместо author_id
 * [ ] camelCase
-* [ ] проверять package.json на пустоту
 * [ ] нормальная валидация
 * [ ] эластик
 * [ ] хранить кеши

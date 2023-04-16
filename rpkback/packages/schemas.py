@@ -4,6 +4,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, constr, FileUrl, Field
 
+from rpkback.users.schemas import User
 
 SemVer: TypeVar = constr(
     regex=r"^(?P<major>0|[1-9]\d*)\."
@@ -30,7 +31,7 @@ class Package(BaseModel):
     name: str
     description: str | None
     latest_version: SemVer | None
-    author_id: UUID
+    author: User
     created_at: datetime
     updated_at: datetime | None
 
