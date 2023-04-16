@@ -4,7 +4,6 @@ web service for managing the raccon package tool repository (not Ruchnoy Pulemyo
 ### todo
 * [ ] функционал пакетов
 * [ ] теги
-* [ ] camelCase
 * [ ] нормальная валидация
 * [ ] эластик
 * [ ] хранить кеши
