@@ -21,13 +21,13 @@ async def create_token(
 ) -> APIToken:
     package = await get_package(session, package)
     if package.author_id != user_id:
-        raise Forbidden("you are not owner of this package")
+        raise Forbidden("You are not owner of this package")
     token = APIToken(user_id=user_id, package_name=package.name, name=name)
     session.add(token)
     try:
         await session.commit()
     except IntegrityError:
-        raise ItemAlreadyExists("token with this name already exists")
+        raise ItemAlreadyExists("Token with this name already exists")
     await session.refresh(token)
     return token
 
@@ -35,9 +35,9 @@ async def create_token(
 async def get_token(session: AsyncSession, token_id: UUID, by_user: User) -> APIToken:
     token = await session.get(APIToken, token_id)
     if token is None:
-        raise ItemNotFound("token not found")
+        raise ItemNotFound("Token not found")
     if token.user_id != by_user.id:
-        raise Forbidden("you are not the owner of this token")
+        raise Forbidden("You are not the owner of this token")
     return token  # noqa
 
 
@@ -45,7 +45,7 @@ async def find_token_by_value(session: AsyncSession, value: str) -> APIToken:
     result = await session.execute(select(APIToken).where(APIToken.token == value))
     token = result.scalar_one_or_none()
     if token is None:
-        raise ItemNotFound("token with this value is not exists")
+        raise ItemNotFound("Token with this value is not exists")
     return token
 
 
@@ -69,7 +69,7 @@ async def get_current_token_or_user(
     try:
         schema, value = token.split()
     except ValueError:
-        raise HTTPException(401, "wrong token format. use 'Bearer <token>' or 'apiKey <token>'")
+        raise HTTPException(401, "Wrong token format. use 'Bearer <token>' or 'apiKey <token>'")
     if schema.lower() == "bearer":
         return await get_current_user(session, token)
     elif schema.lower() == "apikey":

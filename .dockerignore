@@ -1,3 +1,4 @@
+.dockerpush.sh
 Dockerfile
 docker-compose.yml
 venv

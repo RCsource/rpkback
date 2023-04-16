@@ -27,7 +27,7 @@ async def create_new_package(
     try:
         await session.commit()
     except IntegrityError:
-        raise ItemAlreadyExists("package with this name already exists")
+        raise ItemAlreadyExists("Package with this name already exists")
     await session.refresh(package)
     return package
 
@@ -35,7 +35,7 @@ async def create_new_package(
 async def get_package(session: AsyncSession, name: str) -> Package:
     package = await session.get(Package, name)
     if package is None:
-        raise ItemNotFound("package not found")
+        raise ItemNotFound("Package not found")
     return package  # noqa
 
 
@@ -46,7 +46,7 @@ async def get_package_version(
         PackageVersion, {"package": package, "version": version}
     )
     if version is None:
-        raise ItemNotFound("package version not found")
+        raise ItemNotFound("Package version not found")
     print(version.__dict__)
     return version  # noqa
 
@@ -58,22 +58,22 @@ async def create_package_version(
         try:
             tar = tarfile.open(fileobj=file.file)
         except tarfile.ReadError:
-            raise HTTPException(400, "file is not tar archive")
+            raise HTTPException(400, "File is not tar archive")
         try:
             fileobj = tar.extractfile("package.json")
         except KeyError:
-            raise HTTPException(400, "filename 'package.json' not found")
+            raise HTTPException(400, "Filename 'package.json' not found")
         try:
             content = json.loads(fileobj.read())
         except json.JSONDecodeError:
-            raise HTTPException(400, 'json decode error')
+            raise HTTPException(400, 'Json decode error')
         try:
             info = schemas.PackageVersionInfo(content)
         except pydantic.ValidationError as e:
-            raise  HTTPException(status_code=422, detail=jsonable_encoder(e.errors()))
+            raise HTTPException(status_code=422, detail=jsonable_encoder(e.errors()))
         package = await get_package(session, info.name)
         if isinstance(token_or_user, APIToken):
-            error = Forbidden("wrong api token")
+            error = Forbidden("Wrong api token")
             if token_or_user.user_id != package.author_id:
                 raise error
             if (
@@ -83,9 +83,9 @@ async def create_package_version(
                 raise error
         elif isinstance(token_or_user, User):
             if token_or_user.is_removed:
-                raise ItemNotFound("user not found")
+                raise ItemNotFound("User not found")
             if token_or_user.id != package.author_id:
-                raise Forbidden("you are not author of this package")
+                raise Forbidden("You are not author of this package")
         else:
             raise TypeError("wtf? its impossible")
         path = f"/versions/{info.name}-{info.version}.tar.gz"
@@ -100,7 +100,7 @@ async def create_package_version(
         try:
             await session.commit()
         except IntegrityError:
-            raise ItemAlreadyExists('package version already exists')
+            raise ItemAlreadyExists('Package version already exists')
         await session.refresh(package_version)
         return package_version
     finally:

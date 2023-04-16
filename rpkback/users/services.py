@@ -35,14 +35,14 @@ async def create_user(
     try:
         await session.commit()
     except IntegrityError:
-        raise ItemAlreadyExists("user already exists")
+        raise ItemAlreadyExists("User already exists")
     await session.refresh(user)
     return user
 
 
 async def remove_user(session: AsyncSession, user: User):
     if user.is_removed:
-        raise ItemNotFound("user already deleted")
+        raise ItemNotFound("User already deleted")
     user.is_removed = True
     await session.commit()
     await session.refresh(user)
@@ -58,7 +58,7 @@ async def change_user_info(
     new_password: str | None = None,
 ):
     if not verify_password(password, user.hashed_password):
-        raise Forbidden("wrong password")
+        raise Forbidden("Wrong password")
     if user is not None:
         user.username = username
     if email is not None:
@@ -73,14 +73,14 @@ async def get_user_by_name(session: AsyncSession, username: str) -> User:
     resp = await session.execute(select(User).where(User.username == username).limit(1))
     user = resp.scalar_one_or_none()
     if user is None:
-        raise ItemNotFound("user not found")
+        raise ItemNotFound("User not found")
     return user
 
 
 async def get_user_by_id(session: AsyncSession, id_: UUID) -> User:
     user = await session.get(User, id_)
     if user is None:
-        raise ItemNotFound("user not found")
+        raise ItemNotFound("User not found")
     return user  # noqa
 
 
