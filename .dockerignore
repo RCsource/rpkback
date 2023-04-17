@@ -1,6 +1,6 @@
 .dockerpush.sh
 Dockerfile
-docker-compose.yml
+alone-docker-compose.yml
 venv
 .idea
 .env
