@@ -6,7 +6,5 @@ services:
     build: .
     volumes:
       - "./migrations/versions:/app/migrations/versions"
-    links:
-      - "db:${DB_HOST}"
     ports:
       - "8080:8080"
