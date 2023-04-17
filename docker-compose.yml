@@ -4,7 +4,6 @@ services:
   app:
     restart: always
     build: .
-    env_file: .env
     volumes:
       - "./migrations/versions:/app/migrations/versions"
     links:
