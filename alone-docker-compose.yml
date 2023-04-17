@@ -7,6 +7,6 @@ services:
     volumes:
       - "./migrations/versions:/app/migrations/versions"
     ports:
-      - "8080:8080"
+      - "80:80"
     env_file:
       - stack.env
