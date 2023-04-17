@@ -3,3 +3,5 @@ Dockerfile
 docker-compose.yml
 venv
 .idea
+.env
+ПИЗДЕЦ, ВСЁ ЭТО ВРЕМЯ В ДОКЕР РЕПЕ ЛЕЖАЛ .ENV FILE (если вы видите это в гитхаб репе, то я в двойне тупой)

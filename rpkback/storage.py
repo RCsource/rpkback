@@ -84,6 +84,38 @@ class YandexFileStorage(FileStorage):
         await self.close()
 
 
+class BlackblazeStorage(FileStorage):
+    BASE_URL = "https://api.filebase.io/v1/ipfs"
+
+    def __init__(self, token: str):
+        self._token = token
+        self._session: None | aiohttp.ClientSession = None
+
+    async def open(self):
+        self._session = aiohttp.ClientSession(
+            headers={
+                'Authorization': f'Bearer {self._token}',
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            }
+        )
+
+    async def get_download_url(self, path):
+        ...
+
+    async def get_upload_url(self, path, **kwargs):
+        self.get_download_url()
+
+    async def remove_file(self, path: str):
+        pass
+
+    async def upload_file(self, path: str, data: bytes, **kwargs):
+        pass
+
+    async def download_file(self, path: str) -> bytes:
+        pass
+
+
 async def get_storage() -> AsyncIterator[FileStorage]:
     async with YandexFileStorage(config.YANDEX_TOKEN) as storage:
         yield storage
