@@ -113,7 +113,7 @@ async def search_package(
     query = select(Package)
     totq = select(func.count(Package.name))
     if q is not None:
-        cond = Package.name.like(f"%{q}%") | Package.description.match(f"%{q}%")
+        cond = Package.name.ilike(f"%{q}%") | Package.description.ilike(f"%{q}%")
         query = query.filter(cond)
         totq = totq.filter(cond)
     total = (await session.execute(totq)).scalar()
