@@ -119,7 +119,7 @@ async def search_package(
     total = (await session.execute(totq)).scalar()
     page_count = total // size + (1 if total % size else 0)
     if not page_count:
-        page_count = 1
+        page_count = 1  # first page on empty output
     page = page if page <= page_count else page_count
     query = query.offset(size * (page - 1)).limit(size)
     res = await session.execute(query)
