@@ -21,4 +21,4 @@ services:
     environment:
       POSTGRES_USER: "${DB_USER}"
       POSTGRES_PASSWORD: "${DB_PSWD}"
-      POSTGRES_DATABASE: "${DB_NAME}"
+      POSTGRES_DB: "${DB_NAME}"
